@@ -29,7 +29,7 @@ export class OrdersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  async delete(@Param('id') id: string) {
+    await this.ordersService.delete(id);
   }
 }

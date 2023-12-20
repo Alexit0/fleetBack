@@ -30,7 +30,8 @@ export class OrdersService {
     return `This action updates a #${id} order`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async delete(id: string) {
+    await this.orderModel.deleteOne({ _id: id }).exec();
+    return;
   }
 }
