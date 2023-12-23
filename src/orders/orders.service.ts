@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -26,8 +26,8 @@ export class OrdersService {
     return this.orderModel.findOne({ _id: id }).exec();
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: string, UpdateOrderDto: UpdateOrderDto): Promise<Order> {
+    return this.orderModel.findByIdAndUpdate(id, UpdateOrderDto);
   }
 
   async delete(id: string) {
