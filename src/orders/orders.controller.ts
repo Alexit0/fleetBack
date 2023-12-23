@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  BadRequestException,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -19,8 +28,16 @@ export class OrdersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<Order> {
+    try {
+      await this.ordersService.findOne(id);
+    } catch (error) {
+      throw new BadRequestException('Can not find the order', {
+        cause: new Error(),
+        description: 'Order with this reference probably does not exist ...',
+      });
+    }
+    return;
   }
 
   @Patch(':id')

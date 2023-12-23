@@ -22,8 +22,8 @@ export class OrdersService {
     return this.orderModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  findOne(id: string): Promise<Order> {
+    return this.orderModel.findOne({ _id: id }).exec();
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {
